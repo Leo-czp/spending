@@ -30,9 +30,9 @@ class LoginCheck(PostView):
     def action(self):
         name = self.validated_data['name']
         password = self.validated_data['password']
-        user = User.query.filter_by(name=name).first()
+        user = User()
 
-        if user.login(password):
+        if user.login(name, password):
 
             token = Token()
             _token = token.get(name)
@@ -51,6 +51,7 @@ class AddSpending(PostView):
 
     @staticmethod
     def _send_mail(name: str, title: str, price: float) -> None:
+
         # 向成员发送消息
         one_email = OneEmail()
         one_email.add_message(

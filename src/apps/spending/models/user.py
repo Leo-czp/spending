@@ -11,8 +11,10 @@ class User(db.Model):
     password = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(20), nullable=True)
 
-    def login(self, password) -> bool:
-        return self.password == password
+    @classmethod
+    def login(cls, name: str, password: str) -> bool:
+        user = cls.query.filter_by(name=name, password=password).first()
+        return bool(user)
 
     @classmethod
     def emails(cls) -> List[str]:
